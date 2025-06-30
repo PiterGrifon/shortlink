@@ -1,0 +1,28 @@
+local itemsFolder = workspace.Map.Ingame  -- Путь к папке с предметами
+
+-- Список объектов, которые нужно подсветить
+local targetItems = {"BloxyCola", "Medkit"}
+
+-- Цвета для разных предметов (можешь изменить)
+local itemColors = {
+    BloxyCola = Color3.fromRGB(0, 162, 255),  -- Синий (как бутылка колы)
+    Medkit = Color3.fromRGB(0, 162, 255)       -- Красный (как аптечка)
+}
+
+-- Функция для подсветки предмета
+local function highlightItem(item)
+    if table.find(targetItems, item.Name) then
+        local highlight = Instance.new("Highlight")
+        highlight.Parent = item
+        highlight.FillColor = itemColors[item.Name]
+        highlight.OutlineColor = itemColors[item.Name]
+    end
+end
+
+-- Подсвечиваем существующие предметы
+for _, item in ipairs(itemsFolder:GetChildren()) do
+    highlightItem(item)
+end
+
+-- Автоматически подсвечиваем новые предметы
+itemsFolder.ChildAdded:Connect(highlightItem)
